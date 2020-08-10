@@ -1,5 +1,6 @@
 import turtle
 import csv
+import time
 
 def irma_setup():
     """Creates the Turtle and the Screen with the map background
@@ -50,7 +51,7 @@ def irma():
         # This line gives you an "iterator" you can use to get each line
         # in the file.
         pointreader = csv.reader(csvfile)
-
+		
         # You'll need to add some code here, before the loop
         # One thing you'll need to figure out how to do is to
         # skip the first line of the file (which is the header).
@@ -58,7 +59,7 @@ def irma():
         # look into Python's built-in next function
         #(https://docs.python.org/3/library/functions.html#next)
         # pointreader is an iterator
-
+        skip = True
         for row in pointreader:
             # row is a list representing each line in the csv file
             # Each comma separated element is in its own index position
@@ -66,11 +67,42 @@ def irma():
             # row in the file.
             # Make sure you understand what is happening here.
             # Then, you'll need to change this code
-            print("Date:", row[0], "Time:", row[1])
+            if skip == True:
+                skip = False
+                continue
+            #print(row)
+            wind_speeds = int(row[4])
+            if wind_speeds <= 74:
+                t.pencolor('white')
+                #t.write(0)
+            elif wind_speeds <=  95:
+                t.pencolor('blue')
+                t.pensize(2)
+                t.write(1)
+            elif wind_speeds <= 110:
+                t.pencolor('green')
+                t.pensize(4)
+                t.write(2)
+            elif wind_speeds <= 129:
+                t.pencolor('yellow')
+                t.pensize(6)
+                t.write(3)
+            elif wind_speeds <= 156:
+                t.pencolor('orange')
+                t.pensize(8)
+                t.write(4)
+            else:
+                t.pencolor('red')
+                t.pensize(10)
+                t.write(5)
+            print(row[3],row[2])
+            t.setpos(float(row[3]),float(row[2]))
+            #print("Date:", row[0], "Time:", row[1])
 
 
 
     # Hack to make sure a reference to the background image stays around
+    time.sleep(5)
     # Do not remove or change this line
     return map_bg_img
 
@@ -79,4 +111,5 @@ def irma():
 
 
 if __name__ == "__main__":
-    bg=irma()
+	bg=irma()
+	
